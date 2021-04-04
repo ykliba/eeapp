@@ -1,0 +1,2 @@
+class UseHistoriesController < ApplicationController
+end

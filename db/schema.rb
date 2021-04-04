@@ -10,7 +10,39 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_04_080005) do
+ActiveRecord::Schema.define(version: 2021_04_04_081039) do
+
+  create_table "employees", charset: "utf8mb4", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "items", charset: "utf8mb4", force: :cascade do |t|
+    t.string "name"
+    t.string "status"
+    t.datetime "datetime"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "licenses", charset: "utf8mb4", force: :cascade do |t|
+    t.bigint "item_id"
+    t.string "text"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["item_id"], name: "index_licenses_on_item_id"
+  end
+
+  create_table "use_histories", charset: "utf8mb4", force: :cascade do |t|
+    t.bigint "employee_id"
+    t.bigint "item_id"
+    t.string "text"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["employee_id"], name: "index_use_histories_on_employee_id"
+    t.index ["item_id"], name: "index_use_histories_on_item_id"
+  end
 
   create_table "users", charset: "utf8mb4", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -24,4 +56,7 @@ ActiveRecord::Schema.define(version: 2021_04_04_080005) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "licenses", "items"
+  add_foreign_key "use_histories", "employees"
+  add_foreign_key "use_histories", "items"
 end
